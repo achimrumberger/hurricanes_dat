@@ -62,7 +62,7 @@ p = ggplot(df, aes(x = YEAR, y = Distinct_Storms)) + theme_stata()
 p + geom_line(size = 1.1) + 
   ggtitle("Number of Storms Per Year") + 
   theme(plot.title = element_text(hjust = 0.5)) +
-  geom_smooth(method='lm', se = FALSE) + 
+  geom_smooth(method='glm', se = FALSE, formula = y ~ ns(x,3)) + 
   ylab("Storms")
 ```
 
@@ -116,7 +116,7 @@ p = ggplot(df, aes(x = YEAR, y = Distinct_Storms)) + theme_stata()
 p + geom_line(size = 1.1) + 
   ggtitle("Number of distinct Storms Per Year") + 
   theme(plot.title = element_text(hjust = 0.5)) +
-  geom_smooth(method='lm', se = FALSE) + 
+  geom_smooth(method='glm', se = FALSE, formula = y ~ ns(x,3)) + 
   ylab('Number of Storms') +
   theme(axis.title.y = element_text(margin = margin(t = 0, r = 10, b = 0, l = 0)))
 

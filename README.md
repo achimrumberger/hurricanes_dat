@@ -13,14 +13,14 @@ I would like to express my thanks to the contributor of the HURDAT package ("<ht
 library(tidyverse)
 ```
 
-    ## ── Attaching packages ──────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+    ## ── Attaching packages ──────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
 
     ## ✔ ggplot2 2.2.1     ✔ purrr   0.2.4
     ## ✔ tibble  1.3.4     ✔ dplyr   0.7.4
     ## ✔ tidyr   0.7.2     ✔ stringr 1.2.0
     ## ✔ readr   1.1.1     ✔ forcats 0.2.0
 
-    ## ── Conflicts ─────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ── Conflicts ─────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
 
@@ -49,6 +49,30 @@ library(lubridate)
     ## The following object is masked from 'package:base':
     ## 
     ##     date
+
+``` r
+library(splines)
+library(plotly)
+```
+
+    ## 
+    ## Attaching package: 'plotly'
+
+    ## The following object is masked from 'package:ggmap':
+    ## 
+    ##     wind
+
+    ## The following object is masked from 'package:ggplot2':
+    ## 
+    ##     last_plot
+
+    ## The following object is masked from 'package:stats':
+    ## 
+    ##     filter
+
+    ## The following object is masked from 'package:graphics':
+    ## 
+    ##     layout
 
 ``` r
 source("classifiy_hurricianes.R")
@@ -105,7 +129,7 @@ p = ggplot(df, aes(x = YEAR, y = Distinct_Storms)) + theme_stata()
 p + geom_line(size = 1.1) + 
   ggtitle("Number of Storms Per Year") + 
   theme(plot.title = element_text(hjust = 0.5)) +
-  geom_smooth(method='lm', se = FALSE) + 
+  geom_smooth(method='loess', se = FALSE, formula = y ~ x) + 
   ylab("Storms")
 ```
 
@@ -172,7 +196,7 @@ p = ggplot(df, aes(x = YEAR, y = Distinct_Storms)) + theme_stata()
 p + geom_line(size = 1.1) + 
   ggtitle("Number of distinct Storms Per Year") + 
   theme(plot.title = element_text(hjust = 0.5)) +
-  geom_smooth(method='lm', se = FALSE) + 
+  geom_smooth(method='loess', se = FALSE, formula = y ~ x) + 
   ylab('Number of Storms') +
   theme(axis.title.y = element_text(margin = margin(t = 0, r = 10, b = 0, l = 0)))
 ```
@@ -203,4 +227,6 @@ p + geom_line(size = 1.1) +
 Discussion
 ----------
 
-Noteworthy to me seem to be two observations: \* the marked increase in overall storm activity from the 1950s \* the increase in category 5 hurricanes. What was once a very event, from the 1990s onward the occurence of a major hurricane became a regular feature of the hurricane season.
+-   Noteworthy to me seem to be two observations:
+-   the marked increase in overall storm activity from the 1950s
+-   the increase in category 5 hurricanes. What was once a very event, from the 1990s onward the occurence of a major hurricane became a regular feature of the hurricane season.

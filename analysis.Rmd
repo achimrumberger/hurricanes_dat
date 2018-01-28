@@ -2,11 +2,13 @@
 title: "Hurricane data analyis"
 author: "Achim Rumberger"
 date: "27 Januar 2018"
-output: github_document
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(fig.path = "README_figs/README-")
+knitr::opts_chunk$set(
+  fig.path = "README_figs/README-"
+)
 ```
 
 ## Analysis of Hurricane data from HURDAT package

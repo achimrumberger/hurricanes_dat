@@ -6,6 +6,8 @@ Achim Rumberger
 Analysis of Hurricane data from HURDAT package
 ----------------------------------------------
 
+I would like to express my thanks to the contributor of the HURDAT package ("<https://rdrr.io/cran/HURDAT/>"). Compared to the original data from <https://www.nhc.noaa.gov/data/hurdat/> it got so much easier to work with the data.
+
 ``` r
 #libraries
 library(tidyverse)
@@ -197,3 +199,8 @@ p + geom_line(size = 1.1) +
 ```
 
 ![](README_figs/README-unnamed-chunk-9-1.png)
+
+Discussion
+----------
+
+Noteworthy to me seem to be two observations: \* the marked increase in overall storm activity from the 1950s \* the increase in category 5 hurricanes. What was once a very event, from the 1990s onward the occurence of a major hurricane became a regular feature of the hurricane season.

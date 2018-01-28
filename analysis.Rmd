@@ -6,9 +6,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(
-  fig.path = "README_figs/README-"
-)
+knitr::opts_chunk$set(fig.path = "README_figs/README-")
 ```
 
 ## Analysis of Hurricane data from HURDAT package
@@ -23,6 +21,9 @@ library(htmlwidgets)
 library(gridExtra)
 library(HURDAT)
 library(lubridate)
+library(splines)
+library(plotly)
+
 
 source("classifiy_hurricianes.R")
 
@@ -62,7 +63,7 @@ p = ggplot(df, aes(x = YEAR, y = Distinct_Storms)) + theme_stata()
 p + geom_line(size = 1.1) + 
   ggtitle("Number of Storms Per Year") + 
   theme(plot.title = element_text(hjust = 0.5)) +
-  geom_smooth(method='glm', se = FALSE, formula = y ~ ns(x,3)) + 
+  geom_smooth(method='loess', se = FALSE, formula = y ~ x) + 
   ylab("Storms")
 ```
 
@@ -116,7 +117,7 @@ p = ggplot(df, aes(x = YEAR, y = Distinct_Storms)) + theme_stata()
 p + geom_line(size = 1.1) + 
   ggtitle("Number of distinct Storms Per Year") + 
   theme(plot.title = element_text(hjust = 0.5)) +
-  geom_smooth(method='glm', se = FALSE, formula = y ~ ns(x,3)) + 
+  geom_smooth(method = 'loess', se = FALSE, formula = y ~ x) + 
   ylab('Number of Storms') +
   theme(axis.title.y = element_text(margin = margin(t = 0, r = 10, b = 0, l = 0)))
 
@@ -143,6 +144,6 @@ p + geom_line(size = 1.1) +
 ```
 
 ## Discussion
-- Noteworthy to me seem to be two observations
+- Noteworthy to me seem to be two observations:
 - the marked increase in overall storm activity from the 1950s 
 - the increase in category 5 hurricanes. What was once a very event, from the 1990s onward the occurence of a major hurricane became a regular feature of the hurricane season.

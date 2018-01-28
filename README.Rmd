@@ -36,8 +36,8 @@ It will take a while to read the inital data with get_hurdat function.
 Therefore I will save the data for more easy access in the future
 
 ```{r}
-data <- get_hurdat(basin = c("AL", "EP"))
-saveRDS(data, "data/hurricanesALEP")
+#data <- get_hurdat(basin = c("AL", "EP"))
+#saveRDS(data, "data/hurricanesALEP")
 data <- readRDS("data/hurricanesALEP")
 
 ```
@@ -68,14 +68,10 @@ p + geom_line(size = 1.1) +
 
 ##Categorize storms
 Create a new variable which classifies the hurricanes according to windspeed.
-I also will filter the data. A hurricane in its lifecycle will go through several stages, from tropical storm to a class H1 hurricane to H2 to H1, tropical storm. I want to count each storm only once with its highest ratings.
-On my laptop this takes a while, so again, I will save the data for further analysis. This will show us, that in the time frame from 1851 to 2016 a total of 2900 storms have been recorded.
 
 ```{r}
 data$CATEGORY <- sapply(data$Wind, classifyHurricane)
-aaa <- highestClassification4Storm(data)
-saveRDS(aaa, "data/hurricanesALEPAAA")
-summary(aaa)
+
 ```
 
 ## Plot the storms by category
@@ -95,6 +91,52 @@ p + geom_line(size = 1.1) +
   facet_wrap(~ CATEGORY, scales = "free_x", ncol = 3) + 
   geom_smooth(method = 'lm', se = FALSE, col = 'black') +
   theme(axis.text.x = element_text(hjust = 1, angle=45), legend.position = 'none') + 
+  ylab('Number of Storms') +
+  theme(axis.title.y = element_text(margin = margin(t = 0, r = 10, b = 0, l = 0)))
+```
+## Make a distinct dataset
+I also will filter the data. A hurricane in its lifecycle will go through several stages, from tropical storm to a class H1 hurricane to H2 to H1, tropical storm. I want to count each storm only once with its highest ratings.
+On my laptop this takes a while, so again, I will save the data for further analysis. This will show us, that in the time frame from 1851 to 2016 a total of 2900 storms have been recorded.
+
+```{r}
+#distinctStormData <- highestClassification4Storm(data)
+#saveRDS(distinctStormData, "data/hurricanesALEPAAA")
+distinctStormData <- readRDS("data/hurricanesALEPAAA")
+summary(distinctStormData)
+```
+## Plot all distinct storms
+
+```{r}
+df = distinctStormData %>%
+  group_by(YEAR) %>%
+  summarise(Distinct_Storms = n_distinct(Key))
+
+p = ggplot(df, aes(x = YEAR, y = Distinct_Storms)) + theme_stata()
+p + geom_line(size = 1.1) + 
+  ggtitle("Number of distinct Storms Per Year") + 
+  theme(plot.title = element_text(hjust = 0.5)) +
+  geom_smooth(method='lm', se = FALSE) + 
+  ylab('Number of Storms') +
+  theme(axis.title.y = element_text(margin = margin(t = 0, r = 10, b = 0, l = 0)))
+
+```
+## Plot disitinct hurricanes by category
+
+```{r}
+df = distinctStormData %>%
+  filter(grepl("H", CATEGORY)) %>%
+  group_by(YEAR,CATEGORY) %>%
+  summarise(Distinct_Storms = n_distinct(Key))
+df$CATEGORY = factor(df$CATEGORY)
+
+p = ggplot(df, aes(x = YEAR, y = Distinct_Storms, col = CATEGORY)) + theme_stata()
+p + geom_line(size = 1.1) + 
+  scale_color_brewer(direction = -1, palette = "Dark2") + 
+  ggtitle("Number ofd disitinct Storms Per Year By Category (H)") + 
+  theme(plot.title = element_text(hjust = 0.5)) +
+  facet_wrap(~CATEGORY, scales = "free_x") + 
+  geom_smooth(method = 'lm', se = FALSE, col = 'black') +
+  theme(axis.text.x = element_text(angle=45), legend.position = 'none') + 
   ylab('Number of Storms') +
   theme(axis.title.y = element_text(margin = margin(t = 0, r = 10, b = 0, l = 0)))
 ```

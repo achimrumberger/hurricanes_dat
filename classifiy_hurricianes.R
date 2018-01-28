@@ -88,10 +88,3 @@ compareCategory <- function(inputfram, resultfram) {
     return(resultfram)
   }
 }
-
-#for(i in 1:nrow(df20)) {print(df20$Key[i])}
-#df20$CATEGORY[df20$Key=="AL021851"]
-#"AL021851" %in% df20$Key
-#return index 
-#which(df20$Key=="AL021851")
-#length(which(aaa$CATEGORY=="H5"))
